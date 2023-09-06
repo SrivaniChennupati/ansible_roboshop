@@ -73,7 +73,7 @@
 
   - name: to load the schema , set up mongodb repo and install mongodb client
     ansible.builtin.copy:
-      src: momgo.repo
+      src: mongo.repo
       dest: /etc/yum.repos/mongo.repo
 
   - name: Install mongodb client'
