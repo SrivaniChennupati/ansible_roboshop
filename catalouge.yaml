@@ -22,4 +22,15 @@
   - name:  check the exit status , if not equals to 0 , create a user
     ansible.builtin.user:
       name: "roboshop" 
-    when: output.rc !=0 
+    when: output.rc !=0
+
+  - name: check if the /app directory exists, if not create one
+    ansible.builtin.stat:
+      path: /app
+    register: output
+
+  - name: print the exit status
+    ansible.builtin.debug:
+      msg: "{{output}}"
+  
+
