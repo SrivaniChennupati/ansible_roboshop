@@ -1,0 +1,25 @@
+- name: Configuring the Catalouge service
+  hosts: catalouge
+  become: yes
+  tasks:
+  - name: Setup NodeJS repos
+    ansible.builtin.shell: curl -sL https://rpm.nodesource.com/setup_lts.x | bash
+
+  - name: Install NodeJS  
+    ansible.builtin.yum:
+      name: nodejs
+      state: installed
+
+  - name: check if the user "roboshop" exists or not , if not create a user
+    ansible.builtin.command: id roboshop
+    register: output
+    ignore_errors: true
+
+  - name:  print the output
+    ansible.builtin.debug:
+      msg: "output is : {{output.rc}}"
+
+  - name:  check the exit status , if not equals to 0 , create a user
+    ansible.builtin.user:
+      name: "roboshop" 
+    when: output.rc !=0 
