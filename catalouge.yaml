@@ -55,3 +55,31 @@
     #we have to change the directory to /app
     args:
       chdir: /app
+
+  - name: Setup SystemD Catalogue Service
+    ansible.builtin.copy:
+      src: catalouge.service
+      dest: /etc/systemd/system/catalouge.service
+
+  - name: demon-reload the service
+    ansible.builtin.systemd:
+      daemon_reload: true
+
+  - name: start and enable the Service
+    ansible.builtin.service:
+      name: catalouge
+      enabled: yes 
+      state: started
+
+  - name: to load the schema , set up mongodb repo and install mongodb client
+    ansible.builtin.copy:
+      src: momgo.repo
+      dest: /etc/yum.repos/mongo.repo
+
+  - name: Install mongodb client'
+    ansible.builtin.yum:
+      name: mongodb-org-shell
+      state: installed 
+
+  - name: load the schema
+    ansible.builtin.command: mongo --host mongodb.devopsvani.online < /app/schema/catalogue.js               
