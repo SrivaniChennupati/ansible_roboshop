@@ -32,5 +32,9 @@
   - name: print the exit status
     ansible.builtin.debug:
       msg: "{{output}}"
-  
-
+   
+  - name: Create a directory
+    ansible.builtin.file:
+      path: /app
+      state: directory
+    when: output.stat.exists == false  
