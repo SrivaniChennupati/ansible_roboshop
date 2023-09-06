@@ -50,3 +50,8 @@
       dest: /app
       remote_src: yes # means catalouge.zip already available in catalouge server otherise it checks dor the catalouge.zip in the ansible server
 
+  - name: Install the application dependencies
+    ansible.builtin.command: npm install
+    #we have to change the directory to /app
+    args:
+      chdir: /app
