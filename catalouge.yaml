@@ -41,8 +41,8 @@
 
   - name: Download the application code to created app directory
     ansible.builtin.get_url:
-    url: https://roboshop-builds.s3.amazonaws.com/catalogue.zip
-    dest: /tmp
+      url: https://roboshop-builds.s3.amazonaws.com/catalogue.zip
+      dest: /tmp
 
   - name: Extract the Catalouge artifact in /app
     ansible.builtin.unarchive:
