@@ -17,7 +17,7 @@
 
   - name:  enable and start the service
     ansible.builtin.service:
-      name: mysql-community-server
+      name: mysqld
       enabled: yes
       state: started  
 
