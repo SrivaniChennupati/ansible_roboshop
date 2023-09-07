@@ -37,7 +37,38 @@
     ansible.builtin.file:
       path: /app
       state: directory
-    when: output.stat.exists == false           
+    when: output.stat.exists == false
+
+  - name: Download the application code to created app directory
+    ansible.builtin.get_url:
+      url: https://roboshop-builds.s3.amazonaws.com/user.zip
+      dest: /tmp
+
+  - name: extract the code in /app directory
+    ansible.builtin.unarchive:
+      src: /tmp/catalogue.zip
+      dest: /app
+      remote_src: yes
+
+  - name: install dependencies
+    ansible.builtin.command: npm install
+    args:
+      chdir: /app
+
+  - name: Setup SystemD User Service
+    ansible.builtin.copy:
+      src: user.service
+      dest: /etc/systemd/system/user.service
+
+  - name: daemon load
+    ansible.builtin.systemd:
+      daemon_reload: true
+
+  - name: enable and start the user service
+    ansible.builtin.service:
+        name: user
+        enabled: yes
+        state: started                           
 
 
 
