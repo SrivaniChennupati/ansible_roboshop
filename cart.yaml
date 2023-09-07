@@ -1,0 +1,25 @@
+- name: configuring the cart service
+  hosts: cart
+  become: yes
+  tasks:
+  - name: setting up the nodejs repo
+    ansible.builtin.shell: https://rpm.nodesource.com/setup_lts.x | bash
+
+  - name: Install NodeJS
+    ansible.builtin.yum:
+      name: nodejs
+      state: installed
+
+  - name: Add application User if user does not exist 
+    ansible.builtin.command: id roboshop
+    register: output
+    ignore_errors: true
+
+  - name: print the output 
+    ansible.builtin.debug:
+      msg: "{{output.rc}}"
+
+  - name: create the user
+    ansible.builtin.user:
+      name: "roboshop" 
+    when: output.rc != 0           
