@@ -25,4 +25,5 @@
      ansible.builtin.service:
       name: redis
       enabled: yes
-      state: started    
+      state: started
+      
