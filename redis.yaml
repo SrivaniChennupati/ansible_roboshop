@@ -1,0 +1,28 @@
+- name: Confuguring and Install Redis
+  hosts: redis
+  become: yes
+  tasks:
+  - name: Redis is offering the repo file as a rpm. Lets install it
+    ansible.builtin.yum:
+      name: https://rpms.remirepo.net/enterprise/remi-release-8.rpm
+      state: present
+
+  - name: Enable Redis 6.2 from package streams
+    ansible.builtin.command: yum module enable redis:remi-6.2 -y
+
+  - name: Install Redis
+    ansible.builtin.yum:
+      name: redis
+      state: installed 
+
+  - name: update listen address from 127.0.0.1 to 0.0.0.0
+    ansible.builtin.replace:
+      path: /etc/redis.conf & /etc/redis/redis.conf
+      regexp: '127.0.0.1'
+      replace: '0.0.0.0' 
+
+   - name:  Start & Enable Redis Service 
+    ansible.builtin.service:
+      name: redis
+      enabled: yes
+      state: started    

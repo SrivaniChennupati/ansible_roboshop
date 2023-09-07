@@ -7,3 +7,11 @@ catalouge.devopsvani.online
 [web]
 web.devopsvani.online
 
+[redis]
+redis.devopsvani.online
+
+[user]
+user.devopsvani.online
+
+[cart]
+cart.devopsvani.online
