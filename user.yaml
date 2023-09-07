@@ -46,7 +46,7 @@
 
   - name: extract the code in /app directory
     ansible.builtin.unarchive:
-      src: /tmp/catalogue.zip
+      src: /tmp/user.zip
       dest: /app
       remote_src: yes
 
