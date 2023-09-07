@@ -23,4 +23,12 @@
       replace: '0.0.0.0'
     loop:
     - /etc/redis.conf
-    - /etc/redis/redis.conf  
+    - /etc/redis/redis.conf
+
+  - name: enable and satrt the service
+    ansible.builtin.service:
+      name: redis
+      enabled: yes
+      state: started
+
+
