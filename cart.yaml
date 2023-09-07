@@ -37,4 +37,35 @@
     ansible.builtin.file:
       path: /app
       state: directory
-    when: output.stat.exists == false                    
+    when: output.stat.exists == false 
+
+  - name: download the artifact code
+    ansible.builtin.get_url:
+      url: https://roboshop-builds.s3.amazonaws.com/cart.zip
+      dest: /tmp
+
+  - name: unzip the artifact code in /app directory
+    ansible.builtin.unarchive:
+      src: /tmp/catalogue.zip
+      dest: /app
+      remote_src: yes
+
+  - name: Install the dependencies
+    ansible.builtin.command: npm install
+
+  - name: setting up the systemd service
+    ansible.builtin.copy:
+      src: cart.service
+      dest: /etc/systemd/system/cart.service
+
+  - name: deamon reload
+    ansible.builtin.systemd:
+      daemon_reload: true
+
+   - name: start and enable the Service
+    ansible.builtin.service:
+      name: cart
+      enabled: yes 
+      state: started          
+
+
