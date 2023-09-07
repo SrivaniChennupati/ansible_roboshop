@@ -22,4 +22,19 @@
   - name: create the user
     ansible.builtin.user:
       name: "roboshop" 
-    when: output.rc != 0           
+    when: output.rc != 0 
+
+  - name: check if the /app directory exists , if not create one
+    ansible.builtin.stat:
+      path: /app
+    register: output
+
+  - name: print the output
+    ansible.builtin.debug:
+      msg: "{{output}}"
+
+  - name: craete a directory
+    ansible.builtin.file:
+      path: /app
+      state: directory
+    when: output.stat.exists == false                    
