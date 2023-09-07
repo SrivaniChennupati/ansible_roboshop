@@ -21,9 +21,9 @@
       regexp: '127.0.0.1'
       replace: '0.0.0.0' 
 
-   - name:  Start & Enable Redis Service 
+   - name: Start & Enable Redis Service 
      ansible.builtin.service:
       name: redis
-      enabled: yes
-      state: started
+      enabled: yes 
+      state: started 
       
