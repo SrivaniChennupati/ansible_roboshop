@@ -24,7 +24,7 @@
     - /etc/redis.conf
     - /etc/redis/redis.conf 
 
-   - name: Start & Enable Redis Service 
+   - name: Start and Enable Redis Service 
      ansible.builtin.service:
       name: redis
       enabled: yes 
