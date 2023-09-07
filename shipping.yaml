@@ -1,1 +1,60 @@
 - name: configure shipping component
+  hosts: shipping
+  become: yes
+  tasks:
+  - name: Install Maven
+    ansible.builtin.yum:
+      name: maven
+      state: installed
+
+  - name: check if the user "roboshop" exists or not , if not create a user
+    ansible.builtin.command: id roboshop
+    register: output
+    ignore_errors: true
+
+  - name:  print the output
+    ansible.builtin.debug:
+      msg: "output is : {{output.rc}}"
+
+  - name:  check the exit status , if not equals to 0 , create a user
+    ansible.builtin.user:
+      name: "roboshop" 
+    when: output.rc !=0
+
+  - name: check if the /app directory exists, if not create one
+    ansible.builtin.stat:
+      path: /app
+    register: output
+
+  - name: print the exit status
+    ansible.builtin.debug:
+      msg: "{{output}}"
+   
+  - name: Create a directory
+    ansible.builtin.file:
+      path: /app
+      state: directory
+    when: output.stat.exists == false
+
+  - name: Download the application code to created app directory
+    ansible.builtin.get_url:
+      url: https://roboshop-builds.s3.amazonaws.com/shipping.zip
+      dest: /tmp
+
+  - name: Extract the Catalouge artifact in /app
+    ansible.builtin.unarchive:
+      src: /tmp/shipping.zip
+      dest: /app
+      remote_src: yes # means catalouge.zip already available in catalouge server otherise it checks dor the catalouge.zip in the ansible server
+
+  - name: Install the application dependencies
+    ansible.builtin.command: mvn clean package
+    #we have to change the directory to /app
+    args:
+      chdir: /app    
+
+  - name: rename the jar file
+    ansible.builtin.command: mv target/shipping-1.0.jar shipping.jar
+    #we have to change the directory to /app
+    args:
+      chdir: /app       
