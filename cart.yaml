@@ -46,7 +46,7 @@
 
   - name: unzip the artifact code in /app directory
     ansible.builtin.unarchive:
-      src: /tmp/catalogue.zip
+      src: /tmp/cart.zip
       dest: /app
       remote_src: yes
 
