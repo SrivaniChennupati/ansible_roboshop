@@ -68,7 +68,20 @@
     ansible.builtin.service:
         name: user
         enabled: yes
-        state: started                           
+        state: started
+
+  - name: we can setup MongoDB repo and install mongodb-client
+    ansible.builtin.copy:
+      src: mongo.repo
+      dest: /etc/yum.repos.d/mongo.repo  
+
+  - name: install mongodb client
+    ansible.builtin.yum:
+      name: mongodb-org-shell
+      state: installed
+
+  - name: Load Schema
+    ansible.builtin.command: mongo --host mongodb.devopsvani.online </app/schema/user.js                                      
 
 
 
