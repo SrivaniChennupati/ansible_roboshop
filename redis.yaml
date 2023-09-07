@@ -15,3 +15,12 @@
     ansible.builtin.yum:
       name: redis
       state: installed
+
+  - name: Update listen address from 127.0.0.1 to 0.0.0.0
+    ansible.builtin.replace:
+      path: "{{item}}" 
+      regexp: '127.0.0.1'
+      replace: '0.0.0.0'
+    loop:
+    - /etc/redis.conf
+    - /etc/redis/redis.conf  
