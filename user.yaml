@@ -8,4 +8,21 @@
   - name: Install NodeJS
     ansible.builtin.yum:
       name: nodejs
-      state: installed     
+      state: installed
+
+  - name: Add application User if user does not exist 
+    ansible.builtin.command: id roboshop
+    register: output
+    ignore_errors: true
+
+  - name: print the output
+    ansible.builtin.debug:
+      msg: "output is {{output.rc}}" 
+
+  - name: create the user if not exist
+    ansible.builtin.user:
+      name: "roboshop"   
+    when: output.rc !=0   
+
+
+
