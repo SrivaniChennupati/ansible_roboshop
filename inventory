@@ -21,3 +21,12 @@ mysql.devopsvani.online
 
 [shipping]
 shipping.devopsvani.online
+
+[rabbitmq]
+rabbitmq.devopsvani.online
+
+[payments]
+payments.devopsvani.online
+
+[dispatch]
+dispatch.devopsvani.online
