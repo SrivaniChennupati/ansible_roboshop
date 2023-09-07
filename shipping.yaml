@@ -57,4 +57,33 @@
     ansible.builtin.command: mv target/shipping-1.0.jar shipping.jar
     #we have to change the directory to /app
     args:
-      chdir: /app       
+      chdir: /app
+
+  - name: creating systemd service
+    ansible.builtin.copy:
+      src: shipping.service
+      dest: /etc/systemd/system/shipping.service
+
+  - name: daemon load the service 
+    ansible.buiiltin.systemd:
+      daemon_reload: true
+
+  - name: start and enable the Service
+    ansible.builtin.service:
+      name: shipping
+      enabled: yes 
+      state: started
+
+  - name: install mysql
+    ansible.builtin.yum:
+      name: mysql
+      state: installed
+
+  - name: Load Schema
+    ansible.builtin.command: mysql -h mysql.devopsvani.online -uroot -pRoboShop@1 < /app/schema/shipping.sql
+
+  - name: restart the service
+    ansible.builtin.service:
+      name: shipping
+      state: restarted           
+                     
