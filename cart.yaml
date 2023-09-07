@@ -52,7 +52,8 @@
 
   - name: Install the dependencies
     ansible.builtin.command: npm install
-
+    args:
+      chdir: /app
   - name: setting up the systemd service
     ansible.builtin.copy:
       src: cart.service
