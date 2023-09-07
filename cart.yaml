@@ -63,9 +63,9 @@
       daemon_reload: true
 
    - name: start and enable the Service
-    ansible.builtin.service:
+     ansible.builtin.service:
       name: cart
-      enabled: yes 
-      state: started          
+      enabled: yes
+      state: started         
 
 
