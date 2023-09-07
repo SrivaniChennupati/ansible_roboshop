@@ -1,0 +1,5 @@
+- name: configure user service
+  hosts: user
+  become: yes
+  tasks:
+  - name: Setup NodeJS repos
