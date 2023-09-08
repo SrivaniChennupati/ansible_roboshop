@@ -51,7 +51,7 @@
       remote_src: yes
 
   - name: Lets download the dependencies.
-    ansible.builtin.command: pip3.6 install -r requirements.txt
+    ansible.builtin.shell: pip3.6 install -r requirements.txt
 
   - name: Setup SystemD Payment Service
     ansible.builtin.copy:
