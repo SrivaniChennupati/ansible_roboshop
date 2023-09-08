@@ -48,7 +48,7 @@
       remote_src: yes
 
   - name: Lets download the dependencies.
-    ansible.builtin.command: go mod init dispatch go get  go build
+    ansible.builtin.shell: go mod init dispatch go get  go build
     args:
       chdir: /app
 
