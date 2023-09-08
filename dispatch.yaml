@@ -54,8 +54,8 @@
 
   - name: Setup SystemD Payment Service
     ansible.builtin.copy:
-      src: payment.service
-      dest: /etc/systemd/system/payment.service
+      src: dispatch.service
+      dest: /etc/systemd/system/dispatch.service
 
   - name: daemon reload the service
     ansible.builtin.systemd:
@@ -63,7 +63,7 @@
 
   - name: enable and start the service
     ansible.builtin.service:
-      name: payment
+      name: dispatch
       enabled: yes
       state: started     
 
