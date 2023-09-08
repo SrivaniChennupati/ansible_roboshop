@@ -52,6 +52,8 @@
 
   - name: Lets download the dependencies.
     ansible.builtin.shell: pip3.6 install -r requirements.txt
+    args:
+      chdir: /app
 
   - name: Setup SystemD Payment Service
     ansible.builtin.copy:
