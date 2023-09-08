@@ -1,0 +1,66 @@
+- name: configure dispatch module
+  hosts: dispatch
+  become: yes
+  tasks:
+  - name: Install Python 3.6
+    ansible.builtin.yum:
+      name: python36 gcc python3-devel
+      state: installed
+
+  - name: check if the application user exist , if not add 
+    ansible.builtin.command: id roboshop
+    register: output
+
+  - name: print the output
+    ansible.builtin.debug:
+      msg: "{{output.rc}}" 
+
+  - name: check the exit sttaus and create user
+    ansible.builtin.user:
+      name: "roboshop"
+    when: output.rc !=0 
+
+  - name: check if /app exists or not
+    ansible.builtin.stat:
+      path: /app
+    register: output  
+
+  - name: print the output
+    ansible.builtin.debug:
+      msg: "{{output}}" 
+
+  - name: craete  a directory 
+    ansible.builtin.file:
+      path: /app
+      state: directory
+    when: output.stat.exists == false
+
+  -name: Download the application code to created app directory.
+   ansible.builtin.get_url:
+    url: https://roboshop-builds.s3.amazonaws.com/payment.zip
+    dest: /tmp
+
+  - name: extract the code in /app
+    ansible.builtin.unarchive:
+      src: /tmp/payment.zip
+      dest: /app
+      remote_src: yes
+
+  - name: Lets download the dependencies.
+    ansible.builtin.command: pip3.6 install -r requirements.txt
+
+  - name: Setup SystemD Payment Service
+    ansible.builtin.copy:
+      src: payment.service
+      dest: /etc/systemd/system/payment.service
+
+  - name: daemon reload the service
+    ansible.builtin.systemd:
+      daemon_reload: true
+
+  - name: enable and start the service
+    ansible.builtin.service:
+      name: payment
+      enabled: yes
+      state: started     
+
