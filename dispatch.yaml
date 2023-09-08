@@ -50,6 +50,7 @@
   - name: Lets download the dependencies.
     ansible.builtin.shell: |
     if [ ! -f /app/go.mod ]
+    then
       go mod init dispatch
     fi  
       go get &&
