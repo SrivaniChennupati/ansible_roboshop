@@ -49,11 +49,11 @@
 
   - name: Lets download the dependencies.
     ansible.builtin.shell: |
-    if [ ! -f /app/go.mod ]
-    then
-      go mod init dispatch
-    fi  
-      go get &&
+      if [ ! -f /app/go.mod ]
+      then
+        go mod init dispatch
+      fi  
+      go get
       go build
     args:
       chdir: /app
