@@ -42,12 +42,12 @@
 
   - name: extract the code in /app
     ansible.builtin.unarchive:
-      src: /tmp/payment.zip
+      src: /tmp/dispatch.zip
       dest: /app
       remote_src: yes
 
   - name: Lets download the dependencies.
-    ansible.builtin.command: pip3.6 install -r requirements.txt
+    ansible.builtin.command: go mod init dispatch go get  go build
 
   - name: Setup SystemD Payment Service
     ansible.builtin.copy:

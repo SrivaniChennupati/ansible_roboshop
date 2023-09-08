@@ -13,6 +13,7 @@
   - name: check if the application user exist , if not add 
     ansible.builtin.command: id roboshop
     register: output
+    ignore_errors: true
 
   - name: print the output
     ansible.builtin.debug:
