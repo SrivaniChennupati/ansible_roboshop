@@ -2,9 +2,9 @@
   hosts: dispatch
   become: yes
   tasks:
-  - name: Install Python 3.6
+  - name: Install GoLang
     ansible.builtin.yum:
-      name: python36 gcc python3-devel
+      name: golang
       state: installed
 
   - name: check if the application user exist , if not add 
@@ -35,9 +35,9 @@
       state: directory
     when: output.stat.exists == false
 
-  -name: Download the application code to created app directory.
-   ansible.builtin.get_url:
-    url: https://roboshop-builds.s3.amazonaws.com/payment.zip
+  - name: Download the application code to created app directory.
+    ansible.builtin.get_url:
+    url: https://roboshop-builds.s3.amazonaws.com/dispatch.zip
     dest: /tmp
 
   - name: extract the code in /app

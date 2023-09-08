@@ -4,7 +4,10 @@
   tasks:
   - name: Install Python 3.6
     ansible.builtin.yum:
-      name: python36 gcc python3-devel
+      name: 
+      - python36
+      - gcc
+      - python3-devel
       state: installed
 
   - name: check if the application user exist , if not add 
